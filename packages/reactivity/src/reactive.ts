@@ -2,11 +2,12 @@
  * @Author: Marshall
  * @Date: 2023-09-24 15:20:30
  * @LastEditors: Marshall
- * @LastEditTime: 2023-09-24 21:53:52
+ * @LastEditTime: 2023-10-09 21:21:47
  * @Description:
  * @FilePath: /vue3-mini/packages/reactivity/src/reactive.ts
  */
 
+import { isObject } from "@vue/shared"
 import { mutableHandlers } from "./baseHandlers"
 
 export const enum ReactiveFlags {
@@ -36,7 +37,7 @@ function createReactiveObject(
 ) {
   // 如果该实例已经被代理，则直接读取即可
   const existingProxy = proxyMap.get(target)
-  if(existingProxy) {
+  if (existingProxy) {
     return existingProxy
   }
 
@@ -48,4 +49,17 @@ function createReactiveObject(
   // 缓存代理对象
   proxyMap.set(target, proxy)
   return proxy
+}
+
+/**
+ * 将指定数据变为 reactive 数据
+ */
+export const toReactive = <T extends unknown>(value: T): T =>
+  isObject(value) ? reactive(value as object) : value
+
+/**
+ * 判断一个数据是否为 Reactive
+ */
+export function isReactive(value: unknown): boolean {
+  return !!(value && value[ReactiveFlags.IS_REACTIVE])
 }

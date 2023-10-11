@@ -2,8 +2,23 @@
  * @Author: Marshall
  * @Date: 2023-09-23 20:13:46
  * @LastEditors: Marshall
- * @LastEditTime: 2023-09-24 23:17:50
+ * @LastEditTime: 2023-10-12 07:25:55
  * @Description:
  * @FilePath: /vue3-mini/packages/shared/src/index.ts
  */
-export const isArray = Array.isArray;
+/**
+ * 判断是否为一个数组
+ */
+export const isArray = Array.isArray
+
+/**
+ * 判断是否为一个对象
+ */
+export const isObject = (val: unknown) =>
+	val !== null && typeof val === 'object'
+
+/**
+ * 对比两个数据是否发生了改变
+ */
+export const hasChanged = (value: any, oldValue: any): boolean =>
+  !Object.is(value, oldValue)
